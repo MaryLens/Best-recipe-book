@@ -31,6 +31,14 @@
             <option value="${difficulty}">${difficulty}</option>
         </#list>
     </select><br><br>
+    Category: <br><#list categoriess as category>
+        <label>
+            <input type="checkbox" name="categories" value="${category.id}">
+            ${category.title}
+        </label>
+        <br>
+    </#list>
+    <br>
     Cooking time, minutes: <input autocomplete="on" type="number" name="cookingTimeMinutes"/><br><br>
     First, preview photo : <input type="file" name="file1"/><br><br>
     Second photo: <input type="file" name="file2"/><br><br>

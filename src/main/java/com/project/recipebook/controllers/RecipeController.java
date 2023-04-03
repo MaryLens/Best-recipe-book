@@ -25,6 +25,7 @@ public class RecipeController {
     public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
         model.addAttribute("recipes", recipeService.getRecipes(title));
         model.addAttribute("difficulties",Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
+        model.addAttribute("categoriess",recipeService.getAllCategories() );
         return "recipes";
     }
 

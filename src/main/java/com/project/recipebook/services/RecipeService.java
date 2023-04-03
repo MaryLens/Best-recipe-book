@@ -1,8 +1,12 @@
 package com.project.recipebook.services;
 
+import com.project.recipebook.models.Category;
 import com.project.recipebook.models.Image;
 import com.project.recipebook.models.Recipe;
+import com.project.recipebook.repositories.CategoryRepository;
 import com.project.recipebook.repositories.RecipeRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,11 +15,32 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private final CategoryRepository categoryRepository;
+    @PostConstruct
+    public void init(){
+        addCategoryIfNew((Category.builder().title("Breakfast").build()));
+        addCategoryIfNew((Category.builder().title("Lunch").build()));
+        addCategoryIfNew((Category.builder().title("Dinner").build()));
+        addCategoryIfNew((Category.builder().title("Healthy food").build()));
+        addCategoryIfNew((Category.builder().title("Low calories").build()));
+    }
+    public void addCategoryIfNew(Category newCategory){
+        if(categoryRepository.findByTitle(newCategory.getTitle())==null){
+            categoryRepository.save(newCategory);
+        }
+
+    }
+
+    public List<Category> getAllCategories(){
+        List<Category> categories= categoryRepository.findAll();
+        return categories;
+    }
 
     public List<Recipe> getRecipes(String title) {
         if (title != null) {

@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,9 +26,15 @@ public class Recipe {
     private String title;
     @Column(name = "author")
     private String author;
-//    private List<Category> categories;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
     @Enumerated(EnumType.STRING)
-    @Column(name="difficulty")
+    @Column(name = "difficulty")
     private Difficulty difficulty;
     @Column(name = "description")
     private String description;
