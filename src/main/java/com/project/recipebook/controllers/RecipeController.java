@@ -1,5 +1,6 @@
 package com.project.recipebook.controllers;
 
+import com.project.recipebook.models.Category;
 import com.project.recipebook.models.Difficulty;
 import com.project.recipebook.models.Recipe;
 import com.project.recipebook.services.RecipeService;
@@ -25,7 +26,7 @@ public class RecipeController {
     public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
         model.addAttribute("recipes", recipeService.getRecipes(title));
         model.addAttribute("difficulties",Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
-        model.addAttribute("categoriess",recipeService.getAllCategories() );
+        model.addAttribute("categories",Arrays.asList(Category.values()).stream().map(Category::name).collect(Collectors.toList()));
         return "recipes";
     }
 

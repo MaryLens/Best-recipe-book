@@ -14,9 +14,10 @@
 <b>Recipe title: </b>${recipe.title}<br>
 <b>Author: </b>${recipe.author}<br>
 <b>Recipe description: </b>${recipe.description}<br>
+<b>Difficulty:</b> ${recipe.difficulty}<br>
+<b>Category:</b> ${recipe.category}<br>
 <b>Rating: </b>${recipe.rating}<br>
 <b>Cooking time, minutes: </b>${recipe.cookingTimeMinutes}<br>
-<b>Difficulty:</b> ${recipe.difficulty}<br>
 <hr>
 <h3>Delete recipe</h3>
 <form action = "/recipe/delete/${recipe.id}" method = "post">
