@@ -1,6 +1,5 @@
 package com.project.recipebook.models;
 
-import com.project.recipebook.models.Recipe;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,13 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "images")
+@Table(name = "imagesToRecipe")
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Image {
+public class ImageToRecipe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -33,7 +32,7 @@ public class Image {
     @Lob
     @Column(name = "bytes", columnDefinition = "BIGINT")
     private byte[] bytes;
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Recipe recipe;
 
 

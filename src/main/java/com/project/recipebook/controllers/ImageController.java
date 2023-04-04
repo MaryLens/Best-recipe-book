@@ -1,7 +1,9 @@
 package com.project.recipebook.controllers;
 
-import com.project.recipebook.models.Image;
-import com.project.recipebook.repositories.ImageRepository;
+import com.project.recipebook.models.ImageToRecipe;
+import com.project.recipebook.models.ImageToStep;
+import com.project.recipebook.repositories.ImageToRecipeRepository;
+import com.project.recipebook.repositories.ImageToStepRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
@@ -15,15 +17,27 @@ import java.io.ByteArrayInputStream;
 @RestController
 @RequiredArgsConstructor
 public class ImageController {
-    private final ImageRepository imageRepository;
+    private final ImageToRecipeRepository imageToRecipeRepository;
 
-    @GetMapping("/image/{id}")
-    private ResponseEntity<?> getImageById(@PathVariable Long id){
-        Image image = imageRepository.findById(id).orElse(null);
+    @GetMapping("/imageToRec/{id}")
+    private ResponseEntity<?> getRecipeImageById(@PathVariable Long id){
+        ImageToRecipe image = imageToRecipeRepository.findById(id).orElse(null);
         return ResponseEntity.ok()
                 .header("filename", image.getOriginalFilename())
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .contentLength(image.getSize())
                 .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
     }
+
+    private final ImageToStepRepository imageToStepRepository;
+    @GetMapping("/imageToStep/{id}")
+    private ResponseEntity<?> getStepImageById(@PathVariable Long id){
+        ImageToStep image = imageToStepRepository.findById(id).orElse(null);
+        return ResponseEntity.ok()
+                .header("filename", image.getOriginalFilename())
+                .contentType(MediaType.valueOf(image.getContentType()))
+                .contentLength(image.getSize())
+                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
+    }
+
 }

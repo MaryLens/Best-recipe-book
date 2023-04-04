@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,11 +36,12 @@ public class Recipe {
     private double rating;
     @Column(name = "cookingTimeMinutes")
     private int cookingTimeMinutes;
-    //    private List<String> ingredients;
-//    private List<String> cookingSteps;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "recipe")
-    private List<Image> images = new ArrayList<>();
-    private Long previewImageId;
+    private List<Ingredient> ingredients;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "recipe")
+    private List<CookingStep> cookingSteps;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "recipe")
+    private ImageToRecipe image;
     private LocalDateTime dateAdded;
 
     @PrePersist
@@ -51,8 +49,18 @@ public class Recipe {
         dateAdded = LocalDateTime.now();
     }
 
-    public void addImageToProduct(Image image) {
+    public void addImageToRecipe(ImageToRecipe image) {
         image.setRecipe(this);
-        images.add(image);
+        this.image = image;
+    }
+
+
+    public void addCookingStepToRecipe(CookingStep cookingStep) {
+        cookingStep.setRecipe(this);
+        cookingSteps.add(cookingStep);
+    }
+
+    public void removeCookingStepFromRecipe(CookingStep cookingStep) {
+        cookingSteps.remove(cookingStep);
     }
 }
