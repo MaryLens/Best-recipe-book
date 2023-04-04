@@ -42,6 +42,7 @@ public class RecipeService {
         }
         log.info("Saving new Recipe. Title: {}; Author: {}", recipe.getTitle(), recipe.getAuthor());
         Recipe recipeFromDb = recipeRepository.save(recipe);
+        if(recipeFromDb.getImages().isEmpty()) return;
         recipeFromDb.setPreviewImageId(recipeFromDb.getImages().get(0).getId());
         recipeRepository.save(recipeFromDb);
     }

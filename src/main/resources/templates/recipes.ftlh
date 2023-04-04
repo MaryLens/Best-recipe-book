@@ -22,6 +22,7 @@
 <hr>
 <h3>Add you own recipe!</h3>
 <form action="/recipe/create" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     Title: <input autocomplete="on" type="text" name="title"/><br><br>
     Author: <input autocomplete="on" type="text" name="author"/><br><br>
     Description: <input autocomplete="on" type="text" name="description"/><br><br>
