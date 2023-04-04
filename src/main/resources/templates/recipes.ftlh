@@ -6,7 +6,8 @@
 <body>
 <h1>Create your own emotions and tastes!</h1>
 <hr>
-<form action="/" method="get">
+<form action="/recipe/main" method="get">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     Search by title: <input type="text" name="title"><br>
     <input type="submit" value="Search">
 </form>
@@ -22,6 +23,7 @@
 <hr>
 <h3>Add you own recipe!</h3>
 <form action="/recipe/create" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     Title: <input autocomplete="on" type="text" name="title"/>
     Upload photo : <input type="file" name="file"/><br><br>
     Author: <input autocomplete="on" type="text" name="author"/><br><br>
@@ -41,7 +43,7 @@
     <div id="steps">
         <div class="step">
             <p>Step 1:</p>
-            <textarea name="stepDescriptions" rows="3"></textarea>
+            <textarea name="cookingSteps[0].description" rows="3"></textarea>
             <br>
             Upload photo: <input type="file" name="stepPhotos"/><br><br>
         </div>
@@ -59,7 +61,7 @@
             var step = document.createElement('div');
             step.classList.add('step');
             step.innerHTML = '<p>Step ' + stepsCount + ':</p>' +
-                '<textarea name="stepDescriptions" rows="3"></textarea><br>' +
+                '<textarea name="cookingSteps[' + (stepsCount - 1) + '].description" rows="3"></textarea><br>' +
                 'Upload photo: <input type="file" name="stepPhotos"/><br><br>';
 
             stepsDiv.appendChild(step);

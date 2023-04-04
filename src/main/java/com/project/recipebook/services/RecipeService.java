@@ -19,6 +19,7 @@ import java.util.List;
 @Slf4j
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private final StepService stepService;
 
     public List<Recipe> getRecipes(String title) {
         if (title != null) {
@@ -31,7 +32,9 @@ public class RecipeService {
         ImageToRecipe image;
         image = toImageEntity(fileRecipe);
         recipe.addImageToRecipe(image);
-        log.info("Saving new Recipe. Title: {}; Author: {};", recipe.getTitle(), recipe.getAuthor());
+        //тут я меняяяял
+        log.info("Saving new Recipe. Title: {}; Author: {} stepnum {};", recipe.getTitle(), recipe.getAuthor(), recipe.getCookingSteps().size());
+
         Recipe recipeFromDb = recipeRepository.save(recipe);
         recipeRepository.save(recipeFromDb);
     }

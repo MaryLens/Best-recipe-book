@@ -28,7 +28,7 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final  StepService stepService;
 
-    @GetMapping("/")
+    @GetMapping("/recipe/main")
     public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
         model.addAttribute("recipes", recipeService.getRecipes(title));
         model.addAttribute("difficulties", Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
@@ -46,14 +46,18 @@ public class RecipeController {
 
     @PostMapping("/recipe/create")
     public String createRecipe(@RequestParam("file") MultipartFile file, Recipe recipe) throws IOException {
+        for(int i = 0; i < recipe.getCookingSteps().size(); i++){
+            recipe.getCookingSteps().get(i).setRecipe(recipe);
+            recipe.getCookingSteps().get(i).setNumber(i+1);
+        }
         recipeService.saveRecipe(recipe, file);
-        return "redirect:/";
+        return "redirect:/recipe/main";
     }
 
     @PostMapping("/recipe/delete/{id}")
     public String deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
-        return "redirect:/";
+        return "redirect:/recipe/main";
 
     }
 

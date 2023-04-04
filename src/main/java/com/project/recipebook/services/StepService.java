@@ -24,10 +24,13 @@ public class StepService {
     }
 
     public void saveStep(CookingStep step, Recipe recipe, MultipartFile fileStep) throws IOException {
-        ImageToStep image;
-        image = toImageEntity(fileStep);
-        step.addImageToStep(image);
-        recipe.addCookingStepToRecipe(step);
+        if(fileStep != null){        //тут я много менял
+            ImageToStep image;
+            image = toImageEntity(fileStep);
+            step.addImageToStep(image);
+        }
+
+        //recipe.addCookingStepToRecipe(step);
         log.info("Saving new {} Step to Recipe{}.", step.getNumber(), step.getRecipe().getTitle());
         CookingStep stepFromDb = cookingStepRepository.save(step);
         cookingStepRepository.save(stepFromDb);
