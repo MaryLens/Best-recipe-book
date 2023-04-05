@@ -33,7 +33,7 @@ public class RecipeService {
         image = toImageEntity(fileRecipe);
         recipe.addImageToRecipe(image);
         //тут я меняяяял
-        log.info("Saving new Recipe. Title: {}; Author: {} stepnum {};", recipe.getTitle(), recipe.getAuthor(), recipe.getCookingSteps().size());
+        log.info("Saving new Recipe. Title: {}; Author: {} ", recipe.getTitle(), recipe.getAuthor());
 
         Recipe recipeFromDb = recipeRepository.save(recipe);
         recipeRepository.save(recipeFromDb);
@@ -59,5 +59,10 @@ public class RecipeService {
     }
 
 
-
+    public void updateRecipe(Recipe recipe) {
+        Recipe existingRecipe = recipeRepository.findById(recipe.getId()).orElseThrow(() -> new RuntimeException("Recipe not found"));
+        existingRecipe.setCookingSteps(recipe.getCookingSteps());
+        log.info("Updating Recipe. Title: {}; Author: {} stepnum {};", recipe.getTitle(), recipe.getAuthor(), recipe.getCookingSteps().size());
+        recipeRepository.save(existingRecipe);
+    }
 }

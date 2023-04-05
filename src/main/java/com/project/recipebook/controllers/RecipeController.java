@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RecipeController {
     private final RecipeService recipeService;
-    private final  StepService stepService;
+    private final StepService stepService;
 
     @GetMapping("/recipe/main")
     public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
@@ -45,12 +45,30 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/create")
-    public String createRecipe(@RequestParam("file") MultipartFile file, Recipe recipe) throws IOException {
-        for(int i = 0; i < recipe.getCookingSteps().size(); i++){
-            recipe.getCookingSteps().get(i).setRecipe(recipe);
-            recipe.getCookingSteps().get(i).setNumber(i+1);
+    public String createRecipe(@RequestParam("fileRecipe") MultipartFile fileRecipe, Recipe recipe,
+                               @RequestParam("cookingStepsDesc[]") String[] descriptions,
+                               @RequestParam("filesStep[]") MultipartFile[] filesStep) throws IOException {
+
+        recipeService.saveRecipe(recipe, fileRecipe);
+        List<CookingStep> steps = new ArrayList<>();
+
+        for (int i = 0; i < descriptions.length; i++) {
+            CookingStep step = new CookingStep();
+            step.setDescription(descriptions[i]);
+            step.setNumber(i+1);
+            step.setRecipe(recipe);
+            try {
+                stepService.saveStep(step, recipe, filesStep[i]);
+                steps.add(step);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to save image for new step");
+            }
         }
-        recipeService.saveRecipe(recipe, file);
+
+        recipe.setCookingSteps(steps);
+
+        recipeService.updateRecipe(recipe);
+
         return "redirect:/recipe/main";
     }
 
@@ -61,23 +79,4 @@ public class RecipeController {
 
     }
 
-    @PostMapping("/recipes/{recipeId}/steps")
-    public ResponseEntity<?> addStepToRecipe(@PathVariable Long recipeId,
-                                             @RequestParam("description") String description,
-                                             @RequestParam("number") Integer number,
-                                             @RequestParam("file") MultipartFile fileStep) {
-        Recipe recipe = recipeService.getRecipeById(recipeId);
-        if (recipe == null) {
-            return ResponseEntity.notFound().build();
-        }
-        CookingStep step = new CookingStep();
-        step.setDescription(description);
-        step.setNumber(number);
-        try {
-            stepService.saveStep(step, recipe, fileStep);
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().body("Failed to save image for new step");
-        }
-        return ResponseEntity.ok().build();
-    }
 }

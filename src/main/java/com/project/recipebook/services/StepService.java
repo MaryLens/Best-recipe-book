@@ -19,24 +19,17 @@ public class StepService {
 
     private final CookingStepRepository cookingStepRepository;
 
-    public List<CookingStep> getSreps(String title) {
-        return cookingStepRepository.findAll();
-    }
-
     public void saveStep(CookingStep step, Recipe recipe, MultipartFile fileStep) throws IOException {
-        if(fileStep != null){        //тут я много менял
+        //тут я много менял
             ImageToStep image;
             image = toImageEntity(fileStep);
             step.addImageToStep(image);
-        }
-
-        //recipe.addCookingStepToRecipe(step);
-        log.info("Saving new {} Step to Recipe{}.", step.getNumber(), step.getRecipe().getTitle());
+        log.info("Saving new {} Step to Recipe{}.", step.getNumber(), recipe.getTitle());
         CookingStep stepFromDb = cookingStepRepository.save(step);
         cookingStepRepository.save(stepFromDb);
     }
 
-    static ImageToStep toImageEntity(MultipartFile file) throws IOException {
+    private static ImageToStep toImageEntity(MultipartFile file) throws IOException {
         ImageToStep image = ImageToStep.builder()
                 .name(file.getName())
                 .originalFilename(file.getOriginalFilename())

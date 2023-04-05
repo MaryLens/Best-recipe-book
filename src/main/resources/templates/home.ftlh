@@ -27,6 +27,7 @@
         </div>
     </header>
 </div>
-<p> Hello, main page!</p>
+<p> Create your own emotions and tastes!</p>
+
 </body>
 </html>

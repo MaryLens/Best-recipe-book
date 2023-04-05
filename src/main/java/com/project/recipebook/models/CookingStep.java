@@ -18,7 +18,7 @@ public class CookingStep {
     private Long id;
     @Column(name = "number")
     private Integer number;
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Recipe recipe;

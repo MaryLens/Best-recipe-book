@@ -16,14 +16,15 @@
 <b>Recipe description: </b>${recipe.description}<br>
 <b>Difficulty:</b> ${recipe.difficulty}<br>
 <b>Category:</b> ${recipe.category}<br>
-<b>Rating: </b>${recipe.rating}<br>
+<#--<b>Rating: </b>${recipe.rating}<br>-->
 <b>Cooking time, minutes: </b>${recipe.cookingTimeMinutes}<br>
+<b>Ingredients: </b>${recipe.ingredients}<br>
 <hr>
 <h4>Cooking steps:</h4>
 <#list recipe.cookingSteps as step>
     <h5>Step ${step.number}</h5>
     <p>${step.description}</p>
-    <#if step.image??>
+    <#if step.image.size?has_content && step.image.size != 0>
         <img src="/imageToStep/${step.image.id}" height="60px" alt="img ${recipe.title}"/><br><br>
     </#if>
 </#list>

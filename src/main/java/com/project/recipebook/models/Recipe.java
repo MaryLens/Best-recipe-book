@@ -30,14 +30,14 @@ public class Recipe {
     @Enumerated(EnumType.STRING)
     @Column(name = "difficulty")
     private Difficulty difficulty;
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
     @Column(name = "rating")
     private double rating;
     @Column(name = "cookingTimeMinutes")
     private int cookingTimeMinutes;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "recipe")
-    private List<Ingredient> ingredients;
+    @Column(name = "ingredients", length = 1000)
+    private String ingredients;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "recipe")
     private List<CookingStep> cookingSteps;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "recipe")
