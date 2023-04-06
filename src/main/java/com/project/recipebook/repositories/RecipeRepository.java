@@ -9,5 +9,5 @@ import java.util.List;
 public interface RecipeRepository extends JpaRepository<Recipe,Long> {
     List<Recipe> findByTitle(String title);
 
-    List<Recipe> findByAuthorUser(UserEntity userEntity);
+    List<Recipe> findByAuthorUser(UserEntity authorUser);
 }

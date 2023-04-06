@@ -19,8 +19,7 @@
     <b>Occupation: </b>${user.occupation}<br>
 
     <hr>
-    <h4>Cooking steps:</h4>
-    <#list recipes as recipe>
+    <#list user.recipes as recipe>
     <div>
         <p><b>${recipe.title}</b>  <a href="/recipe/${recipe.id}">Details...</a></p>
     </div>

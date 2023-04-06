@@ -55,8 +55,9 @@ public class UserController {
     @GetMapping("/user/{id}")
     public String userInfo(@PathVariable Long id, Model model) {
         UserEntity user = userService.getUser(id);
+        model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("user", user);
-        model.addAttribute("recipes", recipeService.getUserRecipes(user));
+        //model.addAttribute("recips", recipeService.getUserRecipes(user));
         return "user-info";
     }
 }
