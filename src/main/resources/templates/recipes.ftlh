@@ -13,10 +13,27 @@
             <h3>All Recipes</h3>
             <h1>Create your own emotions and tastes!</h1>
             <hr>
-            <form action="/recipe/search" method="get">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <form action="/recipe" method="get">
+<#--                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />-->
                 Search by title: <input type="text" name="title"><br>
                 <input type="submit" value="Search">
+            </form>
+            Filter by:<br><br>
+            <form action="/recipe" method="get">
+            Difficulty: <select name="difficulty">
+                <#list difficulties as difficulty>
+                    <option value="${difficulty}">${difficulty}</option>
+                </#list>
+            </select><br><br>
+                <input type="submit" value="Filter">
+            </form>
+            <form action="/recipe" method="get">
+            Category: <select name="category">
+                <#list categories as category>
+                    <option value="${category}">${category}</option>
+                </#list>
+            </select><br><br>
+                <input type="submit" value="Filter">
             </form>
             <hr>
             <h4>List of all recipes:</h4>

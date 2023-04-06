@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -19,11 +20,23 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final StepService stepService;
 
-    public List<Recipe> getRecipes(String title) {
+    @Transactional
+    public List<Recipe> getRecipes(String title,Category category, Difficulty difficulty) {
+        List<Recipe> recipes = recipeRepository.findAll();
         if (title != null) {
-            return recipeRepository.findByTitle(title);
+            recipes = recipeRepository.findByTitle(title);
         }
-        return recipeRepository.findAll();
+        if (category != null) {
+            recipes = recipes.stream()
+                    .filter(recipe -> recipe.getCategory() == category)
+                    .collect(Collectors.toList());
+        }
+        if (difficulty != null) {
+            recipes = recipes.stream()
+                    .filter(recipe -> recipe.getDifficulty() == difficulty)
+                    .collect(Collectors.toList());
+        }
+        return recipes;
     }
 
     public void saveRecipe(Recipe recipe, MultipartFile fileRecipe) throws IOException {

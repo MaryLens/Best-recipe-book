@@ -31,9 +31,11 @@ public class RecipeController {
     private final UserService userService;
 
     @GetMapping("/recipe")
-    public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
+    public String recipes(@RequestParam(name = "title", required = false) String title,
+                          @RequestParam(name = "category", required = false) Category category,
+                          @RequestParam(name = "difficulty", required = false) Difficulty difficulty,Model model) {
         model.addAttribute("currentUser", userService.getCurrentUser());
-        model.addAttribute("recipes", recipeService.getRecipes(title));
+        model.addAttribute("recipes", recipeService.getRecipes(title,category,difficulty));
         model.addAttribute("difficulties", Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
         model.addAttribute("categories", Arrays.asList(Category.values()).stream().map(Category::name).collect(Collectors.toList()));
 
