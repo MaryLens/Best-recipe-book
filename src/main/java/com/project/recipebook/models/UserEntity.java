@@ -42,8 +42,6 @@ public class UserEntity {
     @OneToMany(mappedBy = "authorUser", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Recipe> recipes = new ArrayList<>();
 
-
-
     @NotBlank(message = "Password is required")
     @Length(min = 6, message = "Minimum password length - 6 characters")
     @Column
