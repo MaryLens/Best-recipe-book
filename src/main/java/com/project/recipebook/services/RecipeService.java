@@ -2,6 +2,7 @@ package com.project.recipebook.services;
 
 import com.project.recipebook.models.*;
 import com.project.recipebook.repositories.RecipeRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -18,11 +20,30 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final StepService stepService;
 
-    public List<Recipe> getRecipes(String title) {
+    /*public List<Recipe> getRecipes(String title) {
         if (title != null) {
             return recipeRepository.findByTitle(title);
         }
         return recipeRepository.findAll();
+    }*/
+
+    @Transactional
+    public List<Recipe> getRecipes(String title,Category category, Difficulty difficulty) {
+        List<Recipe> recipes = recipeRepository.findAll();
+        if (title != null) {
+            recipes = recipeRepository.findByTitle(title);
+        }
+        if (category != null) {
+            recipes = recipes.stream()
+                    .filter(recipe -> recipe.getCategory() == category)
+                    .collect(Collectors.toList());
+        }
+        if (difficulty != null) {
+            recipes = recipes.stream()
+                    .filter(recipe -> recipe.getDifficulty() == difficulty)
+                    .collect(Collectors.toList());
+        }
+        return recipes;
     }
 
     public void saveRecipe(Recipe recipe, MultipartFile fileRecipe) throws IOException {
@@ -63,6 +84,7 @@ public class RecipeService {
         recipeRepository.save(existingRecipe);
     }
 
+    @Transactional
     public List<Recipe> getUserRecipes(UserEntity user){
         return recipeRepository.findByAuthorUser(user);
     }

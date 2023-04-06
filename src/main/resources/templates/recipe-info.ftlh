@@ -35,11 +35,17 @@
         </#if>
     </#list>
     <hr>
-    <h3>Delete recipe</h3>
-    <form action = "/recipe/delete/${recipe.id}" method = "post">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <input type="submit" value="Delete recipe"/>
-    </form>
+    <#if currentUser??>
+        <#if currentUser.id == recipe.authorUser.id>
+            <h3>Delete recipe</h3>
+            <form action = "/recipe/delete/${recipe.id}" method = "post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <input type="submit" value="Delete recipe"/>
+            </form>
+        </#if>
+    </#if>
+
+
 </div>
 
 </body>

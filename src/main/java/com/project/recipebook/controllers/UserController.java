@@ -1,5 +1,6 @@
 package com.project.recipebook.controllers;
 
+import com.project.recipebook.models.Recipe;
 import com.project.recipebook.models.UserEntity;
 import com.project.recipebook.services.RecipeService;
 import com.project.recipebook.services.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -29,12 +31,24 @@ public class UserController {
     }
     @GetMapping("/login")
     public String loginForm(){
-        return "login";
+        UserEntity currentUser = userService.getCurrentUser();
+        if(currentUser == null){
+            return "login";
+        }else{
+            return "redirect:/";
+        }
+
     }
 
     @GetMapping("/registration")
     public String registrationForm(){
-        return "registration";
+
+        UserEntity currentUser = userService.getCurrentUser();
+        if(currentUser == null){
+            return "registration";
+        }else{
+            return "redirect:/";
+        }
     }
 
     @PostMapping("/registration")
@@ -49,15 +63,23 @@ public class UserController {
             return "registration";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
+
 
     @GetMapping("/user/{id}")
     public String userInfo(@PathVariable Long id, Model model) {
         UserEntity user = userService.getUser(id);
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("user", user);
-        //model.addAttribute("recips", recipeService.getUserRecipes(user));
+        List<Recipe> recipes = recipeService.getUserRecipes(user);
+        model.addAttribute("recipes", recipes);
         return "user-info";
+    }
+
+    @GetMapping("/error")
+    public String errorInfo(Model model) {
+        model.addAttribute("currentUser", userService.getCurrentUser());
+        return "error";
     }
 }

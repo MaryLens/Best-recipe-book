@@ -1,26 +1,16 @@
 <!DOCTYPE HTML>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title> ${user.name} </title>
+    <title> My Recipes</title>
     <#include "blocks/settings.ftlh">
 </head>
 <body>
 
 <div class="container">
     <#include "blocks/header.ftlh">
-    <hr>
-    <h4>Detailed info about user</h4>
-    <hr>
-    <b>Name: </b>${user.name}<br>
-
-    <b>Date of Birth: </b>${user.dateOfBirth}<br>
-    <b>Occupation: </b>${user.occupation}<br>
-
-    <hr>
-
-    <h4>List of users recipes:</h4>
+    <h3>My Recipes</h3>
     <#list recipes as recipe>
         <div>
             <p><a href="/recipe/${recipe.id}"><b>${recipe.title}</b></a><br>
@@ -29,14 +19,15 @@
                 </#if>
             <hr>
         </div>
-
+        <form method="post" action="/recipe/delete/${recipe.id}">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <button type="submit">Delete</button>
+        </form>
     <#else>
         <h5>No recipes!</h5>
     </#list>
+    <hr>
 </div>
-
-</body>
-</html>
 
 </body>
 </html>

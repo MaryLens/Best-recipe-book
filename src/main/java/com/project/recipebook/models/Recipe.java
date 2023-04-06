@@ -24,7 +24,9 @@ public class Recipe {
     private String title;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    //@JoinColumn(name = "user_id")
+
+    @JoinColumn(name = "author_user_id")
+
     private UserEntity authorUser;
 
     @Enumerated(EnumType.STRING)

@@ -1,9 +1,6 @@
 package com.project.recipebook.controllers;
 
-import com.project.recipebook.models.Category;
-import com.project.recipebook.models.CookingStep;
-import com.project.recipebook.models.Difficulty;
-import com.project.recipebook.models.Recipe;
+import com.project.recipebook.models.*;
 import com.project.recipebook.services.RecipeService;
 import com.project.recipebook.services.StepService;
 import com.project.recipebook.services.UserService;
@@ -30,7 +27,7 @@ public class RecipeController {
     private final StepService stepService;
     private final UserService userService;
 
-    @GetMapping("/recipe")
+    /*@GetMapping("/recipes")
     public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("recipes", recipeService.getRecipes(title));
@@ -38,6 +35,27 @@ public class RecipeController {
         model.addAttribute("categories", Arrays.asList(Category.values()).stream().map(Category::name).collect(Collectors.toList()));
 
         return "recipes";
+    }*/
+
+    @GetMapping("/recipes")
+
+    public String recipes(@RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "category", required = false) Category category,
+            @RequestParam(name = "difficulty", required = false) Difficulty difficulty, Model model) {
+        model.addAttribute("currentUser", userService.getCurrentUser());
+        model.addAttribute("recipes", recipeService.getRecipes(title, category, difficulty));
+        model.addAttribute("difficulties", Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
+        model.addAttribute("categories", Arrays.asList(Category.values()).stream().map(Category::name).collect(Collectors.toList()));
+
+        return "recipes";
+    }
+
+    @GetMapping("/recipes/my")
+    public String recipesMy(Model model) {
+        UserEntity currentUser = userService.getCurrentUser();
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("recipes", recipeService.getUserRecipes(currentUser));
+        return "recipes-my";
     }
 
     @GetMapping("/recipe/{id}")
@@ -88,8 +106,11 @@ public class RecipeController {
 
     @PostMapping("/recipe/delete/{id}")
     public String deleteRecipe(@PathVariable Long id) {
-        recipeService.deleteRecipe(id);
-        return "redirect:/recipe/main";
+        UserEntity currentUser = userService.getCurrentUser();
+        if(currentUser.getId() == recipeService.getRecipeById(id).getAuthorUser().getId()){
+            recipeService.deleteRecipe(id);
+        }
+        return "redirect:/recipes/my";
 
     }
 
