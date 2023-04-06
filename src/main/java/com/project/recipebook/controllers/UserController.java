@@ -1,5 +1,6 @@
 package com.project.recipebook.controllers;
 
+import com.project.recipebook.models.Recipe;
 import com.project.recipebook.models.UserEntity;
 import com.project.recipebook.services.RecipeService;
 import com.project.recipebook.services.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -52,11 +54,14 @@ public class UserController {
         return "redirect:/";
     }
 
+
     @GetMapping("/user/{id}")
     public String userInfo(@PathVariable Long id, Model model) {
         UserEntity user = userService.getUser(id);
+        model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("user", user);
-        model.addAttribute("recipes", recipeService.getUserRecipes(user));
+        List<Recipe> recipes = recipeService.getUserRecipes(user);
+        model.addAttribute("recips", recipes);
         return "user-info";
     }
 }

@@ -10,7 +10,7 @@
 
         <div class="container">
             <#include "blocks/header.ftlh">
-            <h3>Add you own recipe!</h3>
+            <h3>All Recipes</h3>
             <h1>Create your own emotions and tastes!</h1>
             <hr>
             <form action="/recipe/search" method="get">
@@ -22,7 +22,12 @@
             <h4>List of all recipes:</h4>
             <#list recipes as recipe>
                 <div>
-                    <p><b>${recipe.title}</b> ${recipe.authorUser.name} | <a href="/recipe/${recipe.id}">Details...</a></p>
+                    <p><a href="/recipe/${recipe.id}"><b>${recipe.title}</b></a><br>
+                        <#if recipe.image.size?has_content && recipe.image.size != 0>
+                            <img src="/imageToRec/${recipe.image.id}" height="60px" alt="img ${recipe.title}"/><br>
+                        </#if>
+                        <a href="/user/${recipe.authorUser.id}"> ${recipe.authorUser.name}</a> </p>
+                    <hr>
                 </div>
             <#else>
                 <h5>No recipes!</h5>

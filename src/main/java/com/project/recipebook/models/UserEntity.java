@@ -10,6 +10,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "users")
@@ -36,6 +39,8 @@ public class UserEntity {
 
     @Column
     private String occupation;
+    @OneToMany(mappedBy = "authorUser", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Recipe> recipes = new ArrayList<>();
 
 
 

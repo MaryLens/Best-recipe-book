@@ -2,6 +2,7 @@ package com.project.recipebook.services;
 
 import com.project.recipebook.models.*;
 import com.project.recipebook.repositories.RecipeRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,7 @@ public class RecipeService {
         recipeRepository.save(existingRecipe);
     }
 
+    @Transactional
     public List<Recipe> getUserRecipes(UserEntity user){
         return recipeRepository.findByAuthorUser(user);
     }

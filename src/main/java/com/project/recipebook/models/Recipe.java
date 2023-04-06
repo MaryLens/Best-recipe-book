@@ -23,8 +23,8 @@ public class Recipe {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_user_id")
     private UserEntity authorUser;
 
     @Enumerated(EnumType.STRING)
