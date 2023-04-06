@@ -31,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .requestMatchers("recipe/**").authenticated()
+                .requestMatchers("recipes/my/**", "/recipe/create/**", "/recipe/delete/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -39,11 +39,9 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
-        //.failureUrl("/login?error=true");
-        //.and().csrf().disable();
 
         return http.build();
     }

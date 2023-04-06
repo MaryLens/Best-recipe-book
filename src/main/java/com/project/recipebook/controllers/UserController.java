@@ -31,12 +31,24 @@ public class UserController {
     }
     @GetMapping("/login")
     public String loginForm(){
-        return "login";
+        UserEntity currentUser = userService.getCurrentUser();
+        if(currentUser == null){
+            return "login";
+        }else{
+            return "redirect:/";
+        }
+
     }
 
     @GetMapping("/registration")
     public String registrationForm(){
-        return "registration";
+
+        UserEntity currentUser = userService.getCurrentUser();
+        if(currentUser == null){
+            return "registration";
+        }else{
+            return "redirect:/";
+        }
     }
 
     @PostMapping("/registration")
@@ -51,7 +63,7 @@ public class UserController {
             return "registration";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 
@@ -61,7 +73,17 @@ public class UserController {
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("user", user);
         List<Recipe> recipes = recipeService.getUserRecipes(user);
+<<<<<<< HEAD
         model.addAttribute("recips", recipes);
+=======
+        model.addAttribute("recipes", recipes);
+>>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
         return "user-info";
+    }
+
+    @GetMapping("/error")
+    public String errorInfo(Model model) {
+        model.addAttribute("currentUser", userService.getCurrentUser());
+        return "error";
     }
 }

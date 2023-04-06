@@ -29,12 +29,19 @@
 
 
 
+
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.security</groupId>-->
 <!--            <artifactId>spring-security-test</artifactId>-->
 <!--            <scope>test</scope>-->
 <!--        </dependency>-->
 
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.security</groupId>-->
+        <!--            <artifactId>spring-security-test</artifactId>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
 
 
 
@@ -59,7 +66,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
-
 
 
         <dependency>
@@ -115,7 +121,10 @@
             <scope>test</scope>
         </dependency>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
 
         <dependency>
             <groupId>org.projectlombok</groupId>

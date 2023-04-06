@@ -20,12 +20,28 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final StepService stepService;
 
+<<<<<<< HEAD
+    @Transactional
+    public List<Recipe> getRecipes(String title,Category category, Difficulty difficulty) {
+        List<Recipe> recipes = recipeRepository.findAll();
+=======
+    /*public List<Recipe> getRecipes(String title) {
+>>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
+        if (title != null) {
+            recipes = recipeRepository.findByTitle(title);
+        }
+<<<<<<< HEAD
+=======
+        return recipeRepository.findAll();
+    }*/
+
     @Transactional
     public List<Recipe> getRecipes(String title,Category category, Difficulty difficulty) {
         List<Recipe> recipes = recipeRepository.findAll();
         if (title != null) {
             recipes = recipeRepository.findByTitle(title);
         }
+>>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
         if (category != null) {
             recipes = recipes.stream()
                     .filter(recipe -> recipe.getCategory() == category)

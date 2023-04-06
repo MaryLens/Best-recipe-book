@@ -1,32 +1,17 @@
 <!DOCTYPE HTML>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title> ${user.name} </title>
+    <title> My Recipes</title>
     <#include "blocks/settings.ftlh">
 </head>
 <body>
 
 <div class="container">
     <#include "blocks/header.ftlh">
-    <hr>
-    <h4>Detailed info about user</h4>
-    <hr>
-    <b>Name: </b>${user.name}<br>
-
-    <b>Date of Birth: </b>${user.dateOfBirth}<br>
-    <b>Occupation: </b>${user.occupation}<br>
-
-    <hr>
-<<<<<<< HEAD
-    <h4>List of users recipes:</h4>
-    <#list recips as recipe>
-=======
-
-    <h4>List of users recipes:</h4>
+    <h3>My Recipes</h3>
     <#list recipes as recipe>
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
         <div>
             <p><a href="/recipe/${recipe.id}"><b>${recipe.title}</b></a><br>
                 <#if recipe.image.size?has_content && recipe.image.size != 0>
@@ -34,17 +19,15 @@
                 </#if>
             <hr>
         </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
+        <form method="post" action="/recipe/delete/${recipe.id}">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <button type="submit">Delete</button>
+        </form>
     <#else>
         <h5>No recipes!</h5>
     </#list>
+    <hr>
 </div>
-
-</body>
-</html>
 
 </body>
 </html>
