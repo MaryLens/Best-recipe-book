@@ -39,11 +39,8 @@ public class UserEntity {
 
     @Column
     private String occupation;
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
     @OneToMany(mappedBy = "authorUser", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Recipe> recipes = new ArrayList<>();
 

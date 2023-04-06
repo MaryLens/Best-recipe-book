@@ -19,14 +19,9 @@
     <b>Occupation: </b>${user.occupation}<br>
 
     <hr>
-<<<<<<< HEAD
-    <h4>List of users recipes:</h4>
-    <#list recips as recipe>
-=======
 
     <h4>List of users recipes:</h4>
     <#list recipes as recipe>
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
         <div>
             <p><a href="/recipe/${recipe.id}"><b>${recipe.title}</b></a><br>
                 <#if recipe.image.size?has_content && recipe.image.size != 0>
@@ -34,10 +29,7 @@
                 </#if>
             <hr>
         </div>
-<<<<<<< HEAD
-=======
 
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
     <#else>
         <h5>No recipes!</h5>
     </#list>

@@ -73,11 +73,7 @@ public class UserController {
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("user", user);
         List<Recipe> recipes = recipeService.getUserRecipes(user);
-<<<<<<< HEAD
-        model.addAttribute("recips", recipes);
-=======
         model.addAttribute("recipes", recipes);
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
         return "user-info";
     }
 

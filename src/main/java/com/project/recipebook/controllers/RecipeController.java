@@ -27,28 +27,20 @@ public class RecipeController {
     private final StepService stepService;
     private final UserService userService;
 
-<<<<<<< HEAD
-    @GetMapping("/recipe")
-    public String recipes(@RequestParam(name = "title", required = false) String title,
-                          @RequestParam(name = "category", required = false) Category category,
-                          @RequestParam(name = "difficulty", required = false) Difficulty difficulty,Model model) {
-=======
     /*@GetMapping("/recipes")
     public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
         model.addAttribute("currentUser", userService.getCurrentUser());
-        model.addAttribute("recipes", recipeService.getRecipes(title,category,difficulty));
+        model.addAttribute("recipes", recipeService.getRecipes(title));
         model.addAttribute("difficulties", Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
         model.addAttribute("categories", Arrays.asList(Category.values()).stream().map(Category::name).collect(Collectors.toList()));
-
         return "recipes";
     }*/
 
     @GetMapping("/recipes")
 
     public String recipes(@RequestParam(name = "title", required = false) String title,
-            @RequestParam(name = "category", required = false) Category category,
-            @RequestParam(name = "difficulty", required = false) Difficulty difficulty, Model model) {
+                          @RequestParam(name = "category", required = false) Category category,
+                          @RequestParam(name = "difficulty", required = false) Difficulty difficulty, Model model) {
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("recipes", recipeService.getRecipes(title, category, difficulty));
         model.addAttribute("difficulties", Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));

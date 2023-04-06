@@ -19,7 +19,6 @@
         <img src="/imageToRec/${recipe.image.id}" height="60px" alt="img ${recipe.title}"/><br><br>
     </#if>
     <b>Author: </b>${recipe.authorUser.name}<br>
-
     <b>Recipe description: </b>${recipe.description}<br>
     <b>Difficulty:</b> ${recipe.difficulty}<br>
     <b>Category:</b> ${recipe.category}<br>

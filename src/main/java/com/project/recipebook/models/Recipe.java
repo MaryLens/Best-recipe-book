@@ -24,13 +24,9 @@ public class Recipe {
     private String title;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-<<<<<<< HEAD
-    @JoinColumn(name = "author_user_id")
-=======
 
     @JoinColumn(name = "author_user_id")
 
->>>>>>> 92c364d8e5a99ec94f76a60aae4ac2d7dfa736f7
     private UserEntity authorUser;
 
     @Enumerated(EnumType.STRING)
