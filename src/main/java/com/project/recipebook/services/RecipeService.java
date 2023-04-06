@@ -1,9 +1,6 @@
 package com.project.recipebook.services;
 
-import com.project.recipebook.models.CookingStep;
-import com.project.recipebook.models.ImageToRecipe;
-import com.project.recipebook.models.ImageToStep;
-import com.project.recipebook.models.Recipe;
+import com.project.recipebook.models.*;
 import com.project.recipebook.repositories.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +30,7 @@ public class RecipeService {
         image = toImageEntity(fileRecipe);
         recipe.addImageToRecipe(image);
         //тут я меняяяял
-        log.info("Saving new Recipe. Title: {}; Author: {} ", recipe.getTitle(), recipe.getAuthor());
+        log.info("Saving new Recipe. Title: {}; Author: {} ", recipe.getTitle(), recipe.getAuthorUser().getName());
 
         Recipe recipeFromDb = recipeRepository.save(recipe);
         recipeRepository.save(recipeFromDb);
@@ -62,7 +59,11 @@ public class RecipeService {
     public void updateRecipe(Recipe recipe) {
         Recipe existingRecipe = recipeRepository.findById(recipe.getId()).orElseThrow(() -> new RuntimeException("Recipe not found"));
         existingRecipe.setCookingSteps(recipe.getCookingSteps());
-        log.info("Updating Recipe. Title: {}; Author: {} stepnum {};", recipe.getTitle(), recipe.getAuthor(), recipe.getCookingSteps().size());
+        log.info("Updating Recipe. Title: {}; Author: {} stepnum {};", recipe.getTitle(), recipe.getAuthorUser().getName(), recipe.getCookingSteps().size());
         recipeRepository.save(existingRecipe);
+    }
+
+    public List<Recipe> getUserRecipes(UserEntity user){
+        return recipeRepository.findByAuthorUser(user);
     }
 }

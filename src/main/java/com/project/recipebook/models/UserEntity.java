@@ -1,6 +1,7 @@
 package com.project.recipebook.models;
 
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -18,13 +19,28 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Username is mandatory")
+    @NotBlank(message = "Email is required")
     @Column
     @NotNull
-    private String username;
+    @Email
+    private String email;
 
-    @NotBlank(message = "Password is mandatory")
-    @Length(min = 6, message = "Length")
+    @NotBlank(message = "Name is required")
+    @Column
+    @NotNull
+    private String name;
+
+
+    @Column
+    private String dateOfBirth;
+
+    @Column
+    private String occupation;
+
+
+
+    @NotBlank(message = "Password is required")
+    @Length(min = 6, message = "Minimum password length - 6 characters")
     @Column
     private String password;
 

@@ -6,6 +6,7 @@ import com.project.recipebook.models.Difficulty;
 import com.project.recipebook.models.Recipe;
 import com.project.recipebook.services.RecipeService;
 import com.project.recipebook.services.StepService;
+import com.project.recipebook.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,21 +28,33 @@ import java.util.stream.Collectors;
 public class RecipeController {
     private final RecipeService recipeService;
     private final StepService stepService;
+    private final UserService userService;
 
-    @GetMapping("/recipe/main")
+    @GetMapping("/recipe")
     public String recipes(@RequestParam(name = "title", required = false) String title, Model model) {
+        model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("recipes", recipeService.getRecipes(title));
         model.addAttribute("difficulties", Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
         model.addAttribute("categories", Arrays.asList(Category.values()).stream().map(Category::name).collect(Collectors.toList()));
+
         return "recipes";
     }
 
     @GetMapping("/recipe/{id}")
     public String recipeInfo(@PathVariable Long id, Model model) {
+        model.addAttribute("currentUser", userService.getCurrentUser());
         Recipe recipe = recipeService.getRecipeById(id);
         model.addAttribute("recipe", recipe);
         model.addAttribute("images", recipe.getImage());
         return "recipe-info";
+    }
+
+    @GetMapping("/recipe/create")
+    public String recipeCreateGet(Model model) {
+        model.addAttribute("currentUser", userService.getCurrentUser());
+        model.addAttribute("difficulties", Arrays.asList(Difficulty.values()).stream().map(Difficulty::name).collect(Collectors.toList()));
+        model.addAttribute("categories", Arrays.asList(Category.values()).stream().map(Category::name).collect(Collectors.toList()));
+        return "recipe-create";
     }
 
     @PostMapping("/recipe/create")
@@ -49,6 +62,7 @@ public class RecipeController {
                                @RequestParam("cookingStepsDesc[]") String[] descriptions,
                                @RequestParam("filesStep[]") MultipartFile[] filesStep) throws IOException {
 
+        recipe.setAuthorUser(userService.getCurrentUser());
         recipeService.saveRecipe(recipe, fileRecipe);
         List<CookingStep> steps = new ArrayList<>();
 
@@ -69,7 +83,7 @@ public class RecipeController {
 
         recipeService.updateRecipe(recipe);
 
-        return "redirect:/recipe/main";
+        return "redirect:/";
     }
 
     @PostMapping("/recipe/delete/{id}")
